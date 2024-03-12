@@ -14,12 +14,18 @@ export class App {
       // 本来のsubmitイベントの動作を止める
       event.preventDefault();
       // 追加するTodoアイテムの要素(li要素)を作成する
-      window["todoItemElement" + todoItemCount] = element`<li>${inputElement.value}</li>`;
+      const todoItemElement = element`<li>${inputElement.value}</li>`;
       //【追加】deleteボタンを作成
-      window["deleteButton" + todoItemCount] = element`<button id="delete${todoItemCount}">削除</button>`;
+      const deleteButtonElement = document.createElement('button');
+      deleteButtonElement.setAttribute('id', `delete${todoItemCount}`);
+      deleteButtonElement.textContent = '削除';
+      todoItemElement.appendChild(deleteButtonElement)
+
+      //const deleteButtonElement = element`<button id="delete${todoItemCount}">削除</button>`;
       // TodoアイテムをtodoListElementに追加する【追加】deleteボタンをリストに差し込む
-      todoListElement.appendChild(window["todoItemElement" + todoItemCount]);
-      todoListElement.appendChild(window["deleteButton" + todoItemCount]);
+      todoListElement.appendChild(todoItemElement);
+      //todoListElement.appendChild(deleteButtonElement);
+      //todoListElement.appendChild(deleteButtonElement);
       //todoListElement.appendChild(window["deleteButton" + todoItemCount]);
       // コンテナ要素の中身をTodoリストをまとめるList要素で上書きする
       render(todoListElement, containerElement);
@@ -27,10 +33,10 @@ export class App {
       // 入力欄を空文字列にしてリセットする
       inputElement.value = "";
       //ここから下はdeleteのイベントリスナー
-      window["deleteButton" + todoItemCount] = document.querySelector("#delete${todoItemCount}")
-      window["deleteButton" + todoItemCount].addEventListener('click', (event) => {
+      window[ "deleteElement" + todoItemCount ] = document.querySelector(`#delete${todoItemCount}`)
+      window[ "deleteElement" + todoItemCount ].addEventListener('click', (event) => {
         event.preventDefault();
-        todoListElement.removeChild(window["todoItemElement" + todoItemCount]);
+        todoListElement.removeChild(todoItemElement);
 
         render(todoListElement, containerElement);
         // Todoアイテム数を-1し、表示されてるテキストを更新する
