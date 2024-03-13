@@ -27,6 +27,12 @@ export class App {
         // TodoアイテムをtodoListElementに追加する
         todoListElement.appendChild(todoItemElement);
 
+        // チェックボックスを設置
+        window[ "checkBox" + todoItemCount ] = document.createElement('input');
+        window[ "checkBox" + todoItemCount ].setAttribute('type', 'checkbox');
+        todoListElement.appendChild(window[ "checkBox" + todoItemCount ]);
+
+
         //【追加】deleteボタンを作成
         const deleteButtonElement = document.createElement('button');
         deleteButtonElement.setAttribute('id', `delete${todoItemCount}`);
