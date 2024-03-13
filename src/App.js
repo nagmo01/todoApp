@@ -62,6 +62,8 @@ export class App {
           } else {
             todoItemElement.classList.remove("checked");
           };
+          var checkCount = document.getElementsByClassName("checked").length;
+          todoItemCountElement.textContent = `全てのタスク: ${todoItemCount} 完了済み:${checkCount} 未完了:${todoItemCount-checkCount}`;
         });
 
 
@@ -137,12 +139,17 @@ export class App {
             render(todoListElement, containerElement);
             // Todoアイテム数を-1し、表示されてるテキストを更新する
             todoItemCount -= 1;
-            todoItemCountElement.textContent = `Todoアイテム数: ${todoItemCount}`;
+            var checkCount = document.getElementsByClassName("checked").length;
+            todoItemCountElement.textContent = `全てのタスク: ${todoItemCount} 完了済み:${checkCount} 未完了:${todoItemCount-checkCount}`;
           }
 
         });
+        var checkCount = document.getElementsByClassName("checked").length;
+
+
+
         todoItemCount += 1;
-        todoItemCountElement.textContent = `Todoアイテム数: ${todoItemCount}`;
+        todoItemCountElement.textContent = `全てのタスク: ${todoItemCount} 完了済み:${checkCount} 未完了:${todoItemCount-checkCount}`;
       };
     });
   };
