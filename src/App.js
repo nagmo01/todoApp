@@ -45,12 +45,13 @@ export class App {
       window[ "editElement" + todoItemCount ] = document.querySelector(`#edit${todoItemCount}`)
       window[ "editElement" + todoItemCount ].addEventListener('click', (event) => {
         event.preventDefault();
+        var buttons = document.getElementsByTagName("button");
 
-        
-        //todoListElement.removeChild(todoItemElement);
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].style.display = "none";
+        }
 
-        //const todoFormElement = document.createElement('form');
-        //todoFormElement.appendChild(`<input type="text">`)
+
         console.log(todoItemElement.textContent)
         todoItemElement.innerHTML = `<form><input id="input${todoItemCount}" type="text" value="${todoItemElement.textContent}"></input></form>`;
 
@@ -60,7 +61,14 @@ export class App {
 
         todoItemElement.addEventListener("submit", (event) => {
           event.preventDefault();
-          
+
+
+          var buttons = document.getElementsByTagName("button");
+
+          for (var i = 0; i < buttons.length; i++) {
+            buttons[i].style.display = "inline";
+          }
+
           todoItemElement.innerHTML = `<li>${window[ "inputElement" + todoItemCount ].value}</li>`;
           render(todoListElement, containerElement);
         });
@@ -71,6 +79,7 @@ export class App {
       window[ "deleteElement" + todoItemCount ] = document.querySelector(`#delete${todoItemCount}`)
       window[ "deleteElement" + todoItemCount ].addEventListener('click', (event) => {
         event.preventDefault();
+        window.confirm("キャンセルしても消える");
         todoListElement.removeChild(todoItemElement);
         todoListElement.removeChild(editButtonElement);
         todoListElement.removeChild(deleteButtonElement);
@@ -82,6 +91,6 @@ export class App {
       });
       todoItemCount += 1;
       todoItemCountElement.textContent = `Todoアイテム数: ${todoItemCount}`;
-    });
+      });
   };
 };
