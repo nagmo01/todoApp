@@ -31,6 +31,7 @@ export class App {
         const checkBoxElement = document.createElement('input');
         checkBoxElement.setAttribute('type', 'checkbox');
         checkBoxElement.setAttribute('id', `checkBox${todoItemCount}`);
+        checkBoxElement.setAttribute('class', `checkBox`);
         todoListElement.appendChild(checkBoxElement);
 
 
@@ -55,13 +56,12 @@ export class App {
         inputElement.value = "";
 
         //ここから下はcheckboxの動作
-        checkBoxElement.addEventListener('click', (event) => {
+        checkBoxElement.addEventListener('click', () => {
           if (checkBoxElement.checked){
             todoItemElement.classList.add("checked");
           } else {
             todoItemElement.classList.remove("checked");
           };
-          //render(todoListElement, containerElement);
         });
 
 
@@ -78,6 +78,11 @@ export class App {
 
           for (var i = 0; i < buttons.length; i++) {
             buttons[i].style.display = "none";
+          }
+          var checks = document.getElementsByClassName("checkBox");
+
+          for (var i = 0; i < checks.length; i++) {
+            checks[i].style.display = "none";
           }
 
 
@@ -98,6 +103,12 @@ export class App {
 
               for (var i = 0; i < buttons.length; i++) {
                 buttons[i].style.display = "inline";
+              }
+
+              var checks = document.getElementsByClassName("checkBox");
+
+              for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = "inline";
               }
 
               todoItemElement.innerHTML = `<li>${window[ "inputElement" + todoItemCount ].value}</li>`;
