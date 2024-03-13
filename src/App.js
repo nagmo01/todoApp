@@ -15,9 +15,12 @@ export class App {
     formElement.addEventListener("submit", (event) => {
       // 本来のsubmitイベントの動作を止める
       event.preventDefault();
+
       // 追加するTodoアイテムの要素(li要素)を作成する
       const todoItemElement = element`<li>${inputElement.value}</li>`;
       todoItemElement.setAttribute('id', `item${todoItemCount}`)
+      todoListElement.appendChild(todoItemElement);
+
       //【追加】deleteボタンを作成
       const deleteButtonElement = document.createElement('button');
       deleteButtonElement.setAttribute('id', `delete${todoItemCount}`);
@@ -31,8 +34,8 @@ export class App {
       //【追加】編集ボタンをタグごと<li>の中に入れる
       todoListElement.appendChild(editButtonElement)
 
+
       // TodoアイテムをtodoListElementに追加する
-      todoListElement.appendChild(todoItemElement);
       //todoListElement.appendChild(deleteButtonElement);
       //todoListElement.appendChild(window["deleteButton" + todoItemCount]);
       // コンテナselectors要素の中身をTodoリストをまとめるList要素で上書きする
@@ -43,6 +46,7 @@ export class App {
 
       //ここから下はeditのイベントリスナー
       window[ "editElement" + todoItemCount ] = document.querySelector(`#edit${todoItemCount}`)
+      window[ "editElement" + todoItemCount ].setAttribute('class', "btn btn-outline-success")
       window[ "editElement" + todoItemCount ].addEventListener('click', (event) => {
         event.preventDefault();
         var buttons = document.getElementsByTagName("button");
@@ -52,12 +56,11 @@ export class App {
         }
 
 
-        console.log(todoItemElement.textContent)
-        todoItemElement.innerHTML = `<form><input id="input${todoItemCount}" type="text" value="${todoItemElement.textContent}"></input></form>`;
-
+        todoItemElement.innerHTML = `<form class="edit-form text-end"><input class="new-todo" id="input${todoItemCount}" type="text" value="${todoItemElement.textContent}" /><input class="btn btn-primary" type="submit" value="保存" /></form>`;
         render(todoListElement, containerElement);
 
         window[ "inputElement" + todoItemCount ] = document.querySelector(`#input${todoItemCount}`)
+        window[ "inputElement" + todoItemCount ].focus();
 
         todoItemElement.addEventListener("submit", (event) => {
           event.preventDefault();
@@ -71,15 +74,18 @@ export class App {
 
           todoItemElement.innerHTML = `<li>${window[ "inputElement" + todoItemCount ].value}</li>`;
           render(todoListElement, containerElement);
+
+          inputElement.focus();
         });
       });
 
 
       //ここから下はdeleteのイベントリスナー
       window[ "deleteElement" + todoItemCount ] = document.querySelector(`#delete${todoItemCount}`)
+      window[ "deleteElement" + todoItemCount ].setAttribute('class', "btn btn-outline-danger")
       window[ "deleteElement" + todoItemCount ].addEventListener('click', (event) => {
         event.preventDefault();
-        const v = confirm('確認ダイアログが表示されました'); // ④
+        const v = confirm('本当に削除してもよろしいですか？'); // ④
         if(v === true){ // ⑤
           todoListElement.removeChild(todoItemElement);
           todoListElement.removeChild(editButtonElement);
