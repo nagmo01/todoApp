@@ -10,33 +10,70 @@ export class App {
     const todoListElement = element`<ul></ul>`;
     // Todoアイテム数
     let todoItemCount = 0;
+
+
     formElement.addEventListener("submit", (event) => {
       // 本来のsubmitイベントの動作を止める
       event.preventDefault();
       // 追加するTodoアイテムの要素(li要素)を作成する
       const todoItemElement = element`<li>${inputElement.value}</li>`;
+      todoItemElement.setAttribute('id', `item${todoItemCount}`)
       //【追加】deleteボタンを作成
       const deleteButtonElement = document.createElement('button');
       deleteButtonElement.setAttribute('id', `delete${todoItemCount}`);
       deleteButtonElement.textContent = '削除';
-      todoItemElement.appendChild(deleteButtonElement)
+      //【追加】削除ボタンをタグごと<li>の中に入れる
+      todoListElement.appendChild(deleteButtonElement)
+      //【追加】editボタンを作成
+      const editButtonElement = document.createElement('button');
+      editButtonElement.setAttribute('id', `edit${todoItemCount}`);
+      editButtonElement.textContent = '編集';
+      //【追加】編集ボタンをタグごと<li>の中に入れる
+      todoListElement.appendChild(editButtonElement)
 
-      //const deleteButtonElement = element`<button id="delete${todoItemCount}">削除</button>`;
-      // TodoアイテムをtodoListElementに追加する【追加】deleteボタンをリストに差し込む
+      // TodoアイテムをtodoListElementに追加する
       todoListElement.appendChild(todoItemElement);
       //todoListElement.appendChild(deleteButtonElement);
-      //todoListElement.appendChild(deleteButtonElement);
       //todoListElement.appendChild(window["deleteButton" + todoItemCount]);
-      // コンテナ要素の中身をTodoリストをまとめるList要素で上書きする
+      // コンテナselectors要素の中身をTodoリストをまとめるList要素で上書きする
       render(todoListElement, containerElement);
       // Todoアイテム数を+1し、表示されてるテキストを更新する
       // 入力欄を空文字列にしてリセットする
       inputElement.value = "";
+
+      //ここから下はeditのイベントリスナー
+      window[ "editElement" + todoItemCount ] = document.querySelector(`#edit${todoItemCount}`)
+      window[ "editElement" + todoItemCount ].addEventListener('click', (event) => {
+        event.preventDefault();
+
+        
+        //todoListElement.removeChild(todoItemElement);
+
+        //const todoFormElement = document.createElement('form');
+        //todoFormElement.appendChild(`<input type="text">`)
+        console.log(todoItemElement.textContent)
+        todoItemElement.innerHTML = `<form><input id="input${todoItemCount}" type="text" value="${todoItemElement.textContent}"></input></form>`;
+
+        render(todoListElement, containerElement);
+
+        window[ "inputElement" + todoItemCount ] = document.querySelector(`#input${todoItemCount}`)
+
+        todoItemElement.addEventListener("submit", (event) => {
+          event.preventDefault();
+          
+          todoItemElement.innerHTML = `<li>${window[ "inputElement" + todoItemCount ].value}</li>`;
+          render(todoListElement, containerElement);
+        });
+      });
+
+
       //ここから下はdeleteのイベントリスナー
       window[ "deleteElement" + todoItemCount ] = document.querySelector(`#delete${todoItemCount}`)
       window[ "deleteElement" + todoItemCount ].addEventListener('click', (event) => {
         event.preventDefault();
         todoListElement.removeChild(todoItemElement);
+        todoListElement.removeChild(editButtonElement);
+        todoListElement.removeChild(deleteButtonElement);
 
         render(todoListElement, containerElement);
         // Todoアイテム数を-1し、表示されてるテキストを更新する
@@ -46,8 +83,5 @@ export class App {
       todoItemCount += 1;
       todoItemCountElement.textContent = `Todoアイテム数: ${todoItemCount}`;
     });
-
-
-
-  }
-}
+  };
+};
