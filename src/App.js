@@ -4,6 +4,7 @@ export class App {
   mount() {
     const formElement = document.querySelector("#js-form");
     const inputElement = document.querySelector("#js-form-input");
+    const buttonElement = document.querySelector("#js-form-button");
     const containerElement = document.querySelector("#js-todo-list");
     const todoItemCountElement = document.querySelector("#js-todo-count");
     // TodoリストをまとめるList要素
@@ -23,6 +24,7 @@ export class App {
         // 追加するTodoアイテムの要素(li要素)を作成する
         const todoItemElement = element`<li>${inputElement.value}</li>`;
         todoItemElement.setAttribute('id', `item${todoItemCount}`)
+        // TodoアイテムをtodoListElementに追加する
         todoListElement.appendChild(todoItemElement);
 
         //【追加】deleteボタンを作成
@@ -39,9 +41,6 @@ export class App {
         todoListElement.appendChild(editButtonElement)
 
 
-        // TodoアイテムをtodoListElementに追加する
-        //todoListElement.appendChild(deleteButtonElement);
-        //todoListElement.appendChild(window["deleteButton" + todoItemCount]);
         // コンテナselectors要素の中身をTodoリストをまとめるList要素で上書きする
         render(todoListElement, containerElement);
         // Todoアイテム数を+1し、表示されてるテキストを更新する
@@ -53,6 +52,8 @@ export class App {
         window[ "editElement" + todoItemCount ].setAttribute('class', "btn btn-outline-success")
         window[ "editElement" + todoItemCount ].addEventListener('click', (event) => {
           event.preventDefault();
+          inputElement.style.display = 'none';
+          buttonElement.style.display = 'none';
           var buttons = document.getElementsByTagName("button");
 
           for (var i = 0; i < buttons.length; i++) {
@@ -81,6 +82,8 @@ export class App {
 
               todoItemElement.innerHTML = `<li>${window[ "inputElement" + todoItemCount ].value}</li>`;
               render(todoListElement, containerElement);
+              inputElement.style.display = 'block';
+              buttonElement.style.display = 'block';
 
               inputElement.focus();
             }
