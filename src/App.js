@@ -54,6 +54,19 @@ export class App {
         // 入力欄を空文字列にしてリセットする
         inputElement.value = "";
 
+        //ここから下はcheckboxの動作
+        checkBoxElement.addEventListener('click', (event) => {
+          if (checkBoxElement.checked){
+            todoItemElement.classList.add("checked");
+          } else {
+            todoItemElement.classList.remove("checked");
+          };
+          //render(todoListElement, containerElement);
+        });
+
+
+
+
         //ここから下はeditのイベントリスナー
         window[ "editElement" + todoItemCount ] = document.querySelector(`#edit${todoItemCount}`)
         window[ "editElement" + todoItemCount ].setAttribute('class', "btn btn-outline-success")
