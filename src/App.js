@@ -79,18 +79,21 @@ export class App {
       window[ "deleteElement" + todoItemCount ] = document.querySelector(`#delete${todoItemCount}`)
       window[ "deleteElement" + todoItemCount ].addEventListener('click', (event) => {
         event.preventDefault();
-        window.confirm("キャンセルしても消える");
-        todoListElement.removeChild(todoItemElement);
-        todoListElement.removeChild(editButtonElement);
-        todoListElement.removeChild(deleteButtonElement);
+        const v = confirm('確認ダイアログが表示されました'); // ④
+        if(v === true){ // ⑤
+          todoListElement.removeChild(todoItemElement);
+          todoListElement.removeChild(editButtonElement);
+          todoListElement.removeChild(deleteButtonElement);
 
-        render(todoListElement, containerElement);
-        // Todoアイテム数を-1し、表示されてるテキストを更新する
-        todoItemCount -= 1;
-        todoItemCountElement.textContent = `Todoアイテム数: ${todoItemCount}`;
+          render(todoListElement, containerElement);
+          // Todoアイテム数を-1し、表示されてるテキストを更新する
+          todoItemCount -= 1;
+          todoItemCountElement.textContent = `Todoアイテム数: ${todoItemCount}`;
+        }
+
       });
       todoItemCount += 1;
       todoItemCountElement.textContent = `Todoアイテム数: ${todoItemCount}`;
-      });
+    });
   };
 };
