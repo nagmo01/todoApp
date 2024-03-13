@@ -28,9 +28,10 @@ export class App {
         todoListElement.appendChild(todoItemElement);
 
         // チェックボックスを設置
-        window[ "checkBox" + todoItemCount ] = document.createElement('input');
-        window[ "checkBox" + todoItemCount ].setAttribute('type', 'checkbox');
-        todoListElement.appendChild(window[ "checkBox" + todoItemCount ]);
+        const checkBoxElement = document.createElement('input');
+        checkBoxElement.setAttribute('type', 'checkbox');
+        checkBoxElement.setAttribute('id', `checkBox${todoItemCount}`);
+        todoListElement.appendChild(checkBoxElement);
 
 
         //【追加】deleteボタンを作成
@@ -105,6 +106,7 @@ export class App {
           const v = confirm('本当に削除してもよろしいですか？'); // ④
           if(v === true){ // ⑤
             todoListElement.removeChild(todoItemElement);
+            todoListElement.removeChild(checkBoxElement);
             todoListElement.removeChild(editButtonElement);
             todoListElement.removeChild(deleteButtonElement);
 
