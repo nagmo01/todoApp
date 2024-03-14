@@ -24,6 +24,7 @@ export class App {
         // 追加するTodoアイテムの要素(li要素)を作成する
         const todoItemElement = element`<li>${inputElement.value}</li>`;
         todoItemElement.setAttribute('id', `item${todoItemCount}`)
+        todoItemElement.setAttribute('class', "allTask")
         // TodoアイテムをtodoListElementに追加する
         todoListElement.appendChild(todoItemElement);
 
@@ -63,7 +64,9 @@ export class App {
             todoItemElement.classList.remove("checked");
           };
           var checkCount = document.getElementsByClassName("checked").length;
-          todoItemCountElement.textContent = `全てのタスク: ${todoItemCount} 完了済み:${checkCount} 未完了:${todoItemCount-checkCount}`;
+          var allTask = document.getElementsByClassName("allTask").length;
+          todoItemCountElement.textContent = `全てのタスク: ${allTask} 完了済み:${checkCount} 未完了:${allTask-checkCount}`;
+
         });
 
 
@@ -136,20 +139,22 @@ export class App {
             todoListElement.removeChild(editButtonElement);
             todoListElement.removeChild(deleteButtonElement);
 
-            render(todoListElement, containerElement);
             // Todoアイテム数を-1し、表示されてるテキストを更新する
-            todoItemCount -= 1;
+            var allTask = document.getElementsByClassName("allTask").length;
             var checkCount = document.getElementsByClassName("checked").length;
-            todoItemCountElement.textContent = `全てのタスク: ${todoItemCount} 完了済み:${checkCount} 未完了:${todoItemCount-checkCount}`;
+            render(todoListElement, containerElement);
+            todoItemCountElement.textContent = `全てのタスク: ${allTask} 完了済み:${checkCount} 未完了:${allTask-checkCount}`;
+
           }
 
         });
         var checkCount = document.getElementsByClassName("checked").length;
+        var allTask = document.getElementsByClassName("allTask").length;
 
 
 
         todoItemCount += 1;
-        todoItemCountElement.textContent = `全てのタスク: ${todoItemCount} 完了済み:${checkCount} 未完了:${todoItemCount-checkCount}`;
+        todoItemCountElement.textContent = `全てのタスク: ${allTask} 完了済み:${checkCount} 未完了:${allTask-checkCount}`;
       };
     });
   };
